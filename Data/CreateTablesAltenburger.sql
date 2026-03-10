@@ -1,35 +1,38 @@
-use NFL_RDB_Altenburger;
-
-if(object_id('Team', 'U') is not null)
-    drop table Team;
-if(object_id('ConferenceDivision', 'U') is not null)
-    drop table ConferenceDivision;
-
-
+USE NFL_RDB_Altenburger;
 GO
-create table ConferenceDivision (
-    ConferenceID int IDENTITY(1,1)
-        CONSTRAINT PK_Conference primary key,
-    Conference NVARCHAR(50) not null,
+
+-- Drop tables if they exist
+IF OBJECT_ID('Team', 'U') IS NOT NULL
+    DROP TABLE Team;
+IF OBJECT_ID('ConferenceDivision', 'U') IS NOT NULL
+    DROP TABLE ConferenceDivision;
+GO
+
+-- Create ConferenceDivision table
+CREATE TABLE ConferenceDivision (
+    ConferenceID INT IDENTITY(1,1) PRIMARY KEY,
+    Conference NVARCHAR(50) NOT NULL
         CONSTRAINT CK_ConferenceNames CHECK (Conference IN ('AFC', 'NFC')),
-    Division NVARCHAR(50) not null
-        CONSTRAINT CK_DivisionNames CHECK (Division IN ('North', 'South', 'East', 'West'))
-        constraint UQ_ConferenceDivision unique (Conference, Division);
+    Division NVARCHAR(50) NOT NULL
+        CONSTRAINT CK_DivisionNames CHECK (Division IN ('North', 'South', 'East', 'West')),
+    CONSTRAINT UQ_ConferenceDivision UNIQUE (Conference, Division)
 );
+GO
 
-alter table ConferenceDivision
-    add constraint CK_ConferenceDivision CHECK (
-       
+-- Optionally add additional check (if needed)
+-- ALTER TABLE ConferenceDivision
+--     ADD CONSTRAINT CK_ConferenceDivision CHECK (
+--         -- Example: ensure combination logic, if needed
+--     );
+-- GO
 
-create table Team (
-    TeamID int IDENTITY(1,1)
-        CONSTRAINT PK_Team primary key,
-    TeamName NVARCHAR(50) not null,
-    TeamCityState NVARCHAR(50) not null,
+-- Create Team table
+CREATE TABLE Team (
+    TeamID INT IDENTITY(1,1) PRIMARY KEY,
+    TeamName NVARCHAR(50) NOT NULL,
+    TeamCityState NVARCHAR(50) NOT NULL,
     TeamColors NVARCHAR(50) NOT NULL,
-    ConferenceDivisionID int not null
+    ConferenceDivisionID INT NOT NULL
         CONSTRAINT FK_Team_ConferenceDivision FOREIGN KEY REFERENCES ConferenceDivision(ConferenceID)
 );
-
-
-    
+GO
