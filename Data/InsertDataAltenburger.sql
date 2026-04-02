@@ -1,5 +1,4 @@
-USE NFL_RDB_Altenburger;
-GO
+
 
 INSERT INTO ConferenceDivision (Conference, Division)
 SELECT * FROM (VALUES
@@ -66,3 +65,4 @@ WHERE NOT EXISTS (
     WHERE t.TeamName = src.TeamName
 );
 GO
+

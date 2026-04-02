@@ -1,6 +1,3 @@
-USE NFL_RDB_Altenburger;
-GO
-
 -- Drop tables if they exist
 IF OBJECT_ID('Team', 'U') IS NOT NULL
     DROP TABLE Team;
@@ -19,20 +16,18 @@ CREATE TABLE ConferenceDivision (
 );
 GO
 
--- Optionally add additional check (if needed)
--- ALTER TABLE ConferenceDivision
---     ADD CONSTRAINT CK_ConferenceDivision CHECK (
---         -- Example: ensure combination logic, if needed
---     );
--- GO
-
 -- Create Team table
 CREATE TABLE Team (
     TeamID INT IDENTITY(1,1) PRIMARY KEY,
     TeamName NVARCHAR(50) NOT NULL,
     TeamCityState NVARCHAR(50) NOT NULL,
-    TeamColors NVARCHAR(50) NOT NULL,
+    TeamColors NVARCHAR(100) NOT NULL,
     ConferenceDivisionID INT NOT NULL
         CONSTRAINT FK_Team_ConferenceDivision FOREIGN KEY REFERENCES ConferenceDivision(ConferenceID)
 );
+GO
+
+SELECT * FROM dbo.ConferenceDivision;
+GO
+SELECT * FROM dbo.Team;
 GO
