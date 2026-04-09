@@ -7,10 +7,17 @@ def get_teams_in_same_conference_division_as_specified_team_ui():
     team_name = st.text_input("Team Name")
 
     if st.button("Fetch Teams"):
-        endpoint = f"teams/same-division/{team_name}"
-        data = fetch_data(endpoint)
+        if not team_name.strip():
+            st.warning("Please enter a team name.")
+            return
 
-        if isinstance(data, list) and len(data) > 0:
-            st.dataframe(data)
+        params = {
+            "team_name": team_name.strip()
+        }
+
+        df = fetch_data("get_teams_in_same_conference_division_as_specified_team/", params)
+
+        if df is not None and not df.empty:
+            st.dataframe(df, use_container_width=True, hide_index=True)
         else:
-            st.warning("No results found")
+            st.warning("No results found.")

@@ -44,4 +44,3 @@ EXEC dbo.procGetTeamsByConferenceDivision 'AFC', 'North';
 GO
 EXEC dbo.procGetTeamsInSameConferenceDivisionAsSpecifiedTeam 'Pittsburgh Steelers';
 GO
-

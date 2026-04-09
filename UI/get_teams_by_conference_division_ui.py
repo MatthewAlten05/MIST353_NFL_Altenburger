@@ -9,13 +9,13 @@ def get_teams_by_conference_division_ui():
 
     if st.button("Fetch Teams"):
         params = {
-            "conference_name": conference,
-            "division_name": division
+            "conference": conference.strip(),
+            "division": division.strip()
         }
 
-        data = fetch_data("teams/by-division", params)
+        df = fetch_data("get_teams_by_conference_division/", params)
 
-        if isinstance(data, list) and len(data) > 0:
-            st.dataframe(data)
+        if df is not None and not df.empty:
+            st.dataframe(df, use_container_width=True, hide_index=True)
         else:
-            st.warning("No results found")
+            st.warning("No results found.")

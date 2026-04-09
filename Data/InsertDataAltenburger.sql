@@ -1,68 +1,112 @@
 
+insert into ConferenceDivision
+VALUES
+('AFC','North'),
+('AFC','East'),
+('AFC','South'),
+('AFC','West'),
+('NFC','North'),
+('NFC','East'),
+('NFC','South'),
+('NFC','West');
 
-INSERT INTO ConferenceDivision (Conference, Division)
-SELECT * FROM (VALUES
-    ('AFC', 'North'),
-    ('AFC', 'South'),
-    ('AFC', 'East'),
-    ('AFC', 'West'),
-    ('NFC', 'East'),
-    ('NFC', 'North'),
-    ('NFC', 'South'),
-    ('NFC', 'West')
-) AS src(Conference, Division)
-WHERE NOT EXISTS (
-    SELECT 1 FROM ConferenceDivision cd
-    WHERE cd.Conference = src.Conference
-    AND cd.Division = src.Division
-);
+
+
+insert into Team
+values
+('Ravens','Baltimore, MD','Purple, Black, Metallic Gold','Logo',1),
+('Bengals','Cincinnati, OH','Black, Orange, White','Logo',1),
+('Browns','Cleveland, OH','Brown, Orange, White','Logo',1),
+('Steelers','Pittsburgh, PA','Black, Gold, White','Logo',1),
+
+('Bills','Buffalo, NY','Royal Blue, Red, White','Logo',2),
+('Dolphins','Miami, FL','Aqua, Orange, White','Logo',2),
+('Patriots','New England, MA','Navy Blue, Red, Silver','Logo',2),
+('Jets','New York, NY','Green, White, Black','Logo',2),
+
+('Texans','Houston, TX','Deep Steel Blue, Battle Red, Liberty White','Logo',3),
+('Colts','Indianapolis, IN','Speed Blue, White','Logo',3),
+('Jaguars','Jacksonville, FL','Teal, Black, Gold, White','Logo',3),
+('Titans','Tennessee, TN','Navy Blue, Titans Blue, Red, White','Logo',3),
+
+('Broncos','Denver, CO','Orange, Navy Blue, White','Logo',4),
+('Chiefs','Kansas City, MO','Red, Gold, White','Logo',4),
+('Raiders','Las Vegas, NV','Silver, Black','Logo',4),
+('Chargers','Los Angeles, CA','Powder Blue, Gold, White','Logo',4),
+
+('Bears','Chicago, IL','Navy Blue, Orange, White','Logo',5),
+('Lions','Detroit, MI','Honolulu Blue, Silver, White','Logo',5),
+('Packers','Green Bay, WI','Green, Gold, White','Logo',5),
+('Vikings','Minnesota, MN','Purple, Gold, White','Logo',5),
+
+('Cowboys','Dallas, TX','Navy Blue, Silver, White','Logo',6),
+('Giants','New York, NY','Royal Blue, Red, White','Logo',6),
+('Redskins','Washington, DC','Burgundy, Gold, White','Logo',6),
+('Eagles','Philadelphia, PA','Midnight Green, Silver, Black, White','Logo',6),
+
+('Cardinals','Arizona, AZ','Cardinal Red, Black, White','Logo',7),
+('Rams','Los Angeles, CA','Royal Blue, Yellow, White','Logo',7),
+('49ers','San Francisco, CA','Scarlet Red, Gold, White','Logo',7),
+('Seahawks','Seattle, WA','College Navy Blue, Action Green, Wolf Grey','Logo',7),
+
+('Falcons','Atlanta, GA','Red, Black, Silver, White','Logo',8),
+('Panthers','Carolina, NC','Black, Panther Blue, Silver, White','Logo',8),
+('Saints','New Orleans, LA','Old Gold, Black, White','Logo',8),
+('Buccaneers','Tampa Bay, FL','Red Pepper Red, Pewter Gray, Orange Red Accent and White Accent Colors ','Logo',8);
+
+-- second phase inserting
+
+-- AppUser insertion
+
+insert into AppUser (Firstname, Lastname, Email, Phone, PasswordHash, UserRole)
+VALUES
+('Tom', 'Brady', 'tom.brady@example.com', '555-1234', 0x01, N'NFLFan'),
+('Aaron', 'Rodgers', 'aaron.rodgers@example.com', '555-9012', 0x01, N'NFLFan'),
+('Drew', 'Brees', 'drew.brees@example.com', '555-2222', 0x01, N'NFLFan'),
+('Patrick', 'Mahomes', 'patrick.mahomes@example.com', '555-7890', 0x01, N'NFLFan'),
+('Bill', 'Belichick', 'bill.belichick@example.com', '555-5678', 0x01, N'NFLAdmin'),
+('Sean', 'McVay', 'sean.mcay@example.com', '555-3456', 0x01, N'NFLAdmin'),
+('Mike', 'Tomlin', 'mike.tomlin@example.com', '555-1111', 0x01, N'NFLAdmin'),
+('Andy', 'Reid', 'andy.reid@example.com', '555-3333', 0x01, N'NFLAdmin');
+
+-- NFLFan insertion
+
+GO
+insert into NFLFan (NFLFanID)
+VALUES
+(1),
+(2),
+(3),
+(4);
+
+-- NFLAdmin insertion
+
+GO
+insert into NFLAdmin (NFLAdminID)
+VALUES
+(5),
+(6),
+(7),
+(8);
+
+-- FanTeam insertion
+
 GO
 
-INSERT INTO Team (TeamName, TeamCityState, TeamColors, ConferenceDivisionID)
-SELECT * FROM (VALUES
-    ('Baltimore Ravens', 'Baltimore, MD', 'Purple', 1),
-    ('Cincinnati Bengals', 'Cincinnati, OH', 'Orange', 1),
-    ('Cleveland Browns', 'Cleveland, OH', 'Brown,White', 1),
-    ('Pittsburgh Steelers', 'Pittsburgh, PA', 'Black, Gold', 1),
+insert into FanTeam (NFLFanID, TeamID, PrimaryTeam)
+VALUES
+(1, 11, 1),
+(1, 24, 0), -- Tom Brady is a fan of New England Patriots and Tampa Bay Buccaneers, but Patriots is his primary team
+(2, 19, 1),
+(2, 12, 0),
+(2, 4, 0),-- Aaron Rodgers is a fan of Green Bay Packers, New York Jets, and Pittsburgh Steelers, but Packers is his primary team
+(3, 3, 1), -- Drew Brees is a fan New Orleans Saints (primary) and Los Angeles Chargers
+(3, 16, 0),
+(4, 14, 1); -- Patrick Mahomes is a fan of Kansas City Chiefs (primary)
 
-    ('Houston Texans', 'Houston, TX', 'Deep Steel Blue, Battle Red, Liberty White', 2),
-    ('Indianapolis Colts', 'Indianapolis, IN', 'Royal Blue, White', 2),
-    ('Jacksonville Jaguars', 'Jacksonville, FL', 'Teal, Black, Gold', 2),
-    ('Tennessee Titans', 'Nashville, TN', 'Navy, Light Blue, Red, Silver', 2),
+-- Insert Test Data
 
-    ('Buffalo Bills', 'Buffalo, NY', 'Royal Blue, Red, White', 3),
-    ('Miami Dolphins', 'Miami, FL', 'Aqua, Orange, White', 3),
-    ('New England Patriots', 'Foxborough, MA', 'Navy Blue, Red, Silver', 3),
-    ('New York Jets', 'East Rutherford, NJ', 'Gotham Green, Spotlight White, Stealth Black', 3),
-
-    ('Denver Broncos', 'Denver, CO', 'Orange, Navy Blue, White', 4),
-    ('Kansas City Chiefs', 'Kansas City, MO', 'Red, Gold, White', 4),
-    ('Las Vegas Raiders', 'Las Vegas, NV', 'Silver, Black', 4),
-    ('Los Angeles Chargers', 'Los Angeles, CA', 'Powder Blue, Sunshine Gold, White', 4),
-
-    ('Dallas Cowboys', 'Arlington, TX', 'Navy Blue, Metallic Silver, White', 5),
-    ('New York Giants', 'East Rutherford, NJ', 'Royal Blue, Red, White', 5),
-    ('Philadelphia Eagles', 'Philadelphia, PA', 'Midnight Green, Silver, Black, White', 5),
-    ('Washington Commanders', 'Landover, MD', 'Burgundy and Gold', 5),
-
-    ('Chicago Bears', 'Chicago, IL', 'Navy Blue, Orange, White', 6),
-    ('Detroit Lions', 'Detroit, MI', 'Honolulu Blue, Silver, White', 6),
-    ('Green Bay Packers', 'Green Bay, WI', 'Dark Green, Gold, White', 6),
-    ('Minnesota Vikings', 'Minneapolis, MN', 'Purple, Gold, White', 6),
-
-    ('Atlanta Falcons', 'Atlanta, GA', 'Red, Black, White', 7),
-    ('Carolina Panthers', 'Charlotte, NC', 'Black, Panther Blue, Silver, White', 7),
-    ('New Orleans Saints', 'New Orleans, LA', 'Old Gold and Black', 7),
-    ('Tampa Bay Buccaneers', 'Tampa Bay Area, FL', 'Red, Pewter and Black', 7),
-
-    ('Arizona Cardinals', 'Phoenix, AZ', 'Cardinal Red and White', 8),
-    ('Los Angeles Rams', 'Los Angeles, CA', 'Royal Blue and Solor Gold', 8),
-    ('San Francisco 49ers', 'San Francisco, CA', 'Scarlet Red and Gold', 8),
-    ('Seattle Seahawks', 'Seattle, WA', 'College Navy, Action Green, Wolf Grey', 8)
-) AS src(TeamName, TeamCityState, TeamColors, ConferenceDivisionID)
-WHERE NOT EXISTS (
-    SELECT 1 FROM Team t
-    WHERE t.TeamName = src.TeamName
-);
-GO
-
+select * from FanTeam;
+select * from NFLFan;
+select * from NFLAdmin;
+select * from AppUser;

@@ -1,13 +1,12 @@
 from get_db_connection import get_db_connection
 
-def get_teams_by_conference_division(conference_name=None, division_name=None):
+def get_teams_by_conference_division(conference=None, division=None):
     conn = get_db_connection()
     cursor = conn.cursor()
 
     cursor.execute(
-        "EXEC dbo.procGetTeamsByConferenceDivision @ConferenceName=?, @DivisionName=?",
-        conference_name,
-        division_name
+        "EXEC dbo.procGetTeamsByConferenceDivision @Conference=?, @Division=?",
+        (conference, division)
     )
 
     rows = cursor.fetchall()
