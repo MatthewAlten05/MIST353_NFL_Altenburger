@@ -23,7 +23,9 @@ def get_teams_by_conference_division(conference=None, division=None):
     conn.close()
     return results
 
+#this is a test call to the function, you can replace the parameters with actual values
+
 if __name__ == "__main__":
-    teams = get_teams_by_conference_division("AFC", "North")
+    teams = get_teams_by_conference_division("NFC", "North")
     for team in teams:
         print(team)
