@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+import pyodbc
+
 from get_teams_by_conference_division import get_teams_by_conference_division
 from get_teams_in_same_conference_division_as_specified_team import get_teams_in_same_conference_division_as_specified_team
 from validate_user import validate_user
@@ -39,5 +41,13 @@ def get_teams_for_specified_fan_api(NFLFanID: int):
 def get_teams_by_color_api(color: str):
     try:
         return get_teams_by_color(color)
+    except Exception as e:
+        return {"error": str(e)}
+
+# 👇 ADDED THIS
+@app.get("/drivers")
+def get_drivers():
+    try:
+        return {"drivers": pyodbc.drivers()}
     except Exception as e:
         return {"error": str(e)}
