@@ -1,13 +1,19 @@
 import streamlit as st
+from pathlib import Path
 from get_teams_by_conference_division_ui import get_teams_by_conference_division_ui
 from get_teams_in_same_conference_division_as_specified_team_ui import get_teams_in_same_conference_division_as_specified_team_ui
 from validate_user_ui import validate_user_ui
 from get_teams_for_specified_fan_ui import get_teams_for_specified_fan_ui
 from get_teams_by_colors_ui import get_teams_by_colors_ui
 
+image_path = Path(__file__).parent / "vintage_nfl.png"
+
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
-    st.image("vintage_nfl.png", width=250)
+    if image_path.exists():
+        st.image(str(image_path), width=250)
+    else:
+        st.warning("Image file 'vintage_nfl.png' was not found.")
 
 st.title("NFL Playoffs App")
 st.write("Welcome to the NFL Playoffs App! Use the sidebar to navigate through different features and explore information about NFL teams, players, and playoff matchups.")
