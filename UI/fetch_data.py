@@ -2,36 +2,33 @@ import streamlit as st
 import requests
 import pandas as pd
 
-FASTAPI_URL = "https://mist353-api-altenburger.azurewebsites.net/"
+FASTAPI_URL = "https://mist353-api-altenburger.azurewebsites.net"
+
 def fetch_data(endpoint: str, params: dict = None):
-    base_url = "http://localhost:8000"
-    url = f"{base_url}/{endpoint}"
+    url = f"{FASTAPI_URL}/{endpoint}"
 
     try:
         response = requests.get(url, params=params)
         response.raise_for_status()
         data = response.json()
 
-        if data is None:
+        # Show API error clearly
+        if isinstance(data, dict) and "error" in data:
+            st.error(f"API Error: {data['error']}")
             return None
 
-        if isinstance(data, dict) and "data" in data:
-            inner_data = data["data"]
-
-            if isinstance(inner_data, list):
-                return pd.DataFrame(inner_data)
-
-            if isinstance(inner_data, dict):
-                return pd.DataFrame([inner_data])
-
         if isinstance(data, list):
+            if len(data) == 0:
+                st.warning("No results found.")
+                return None
             return pd.DataFrame(data)
 
         if isinstance(data, dict):
             return pd.DataFrame([data])
 
+        st.warning("Unexpected response format.")
         return None
 
     except Exception as e:
-        print(e)
+        st.error(f"Request failed: {e}")
         return None
