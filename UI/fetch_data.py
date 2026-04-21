@@ -1,6 +1,8 @@
+import streamlit as st
 import requests
 import pandas as pd
 
+FASTAPI_URL = "https://mist353-api-altenburger.azurewebsites.net/"
 def fetch_data(endpoint: str, params: dict = None):
     base_url = "http://localhost:8000"
     url = f"{base_url}/{endpoint}"
