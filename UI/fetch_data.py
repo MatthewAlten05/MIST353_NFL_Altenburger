@@ -12,7 +12,8 @@ def fetch_data(endpoint: str, params: dict = None):
         response.raise_for_status()
         data = response.json()
 
-        # Show API error clearly
+        st.write("Raw API response:", data)
+
         if isinstance(data, dict) and "error" in data:
             st.error(f"API Error: {data['error']}")
             return None
