@@ -9,20 +9,35 @@ app = FastAPI()
 
 @app.get("/get_teams_by_conference_division/")
 def get_teams_by_conference_division_api(conference: str = None, division: str = None):
-    return get_teams_by_conference_division(conference, division)
+    try:
+        return get_teams_by_conference_division(conference, division)
+    except Exception as e:
+        return {"error": str(e)}
 
 @app.get("/get_teams_in_same_conference_division_as_specified_team/")
 def get_teams_in_same_conference_division_as_specified_team_api(team_name: str):
-    return get_teams_in_same_conference_division_as_specified_team(team_name)
+    try:
+        return get_teams_in_same_conference_division_as_specified_team(team_name)
+    except Exception as e:
+        return {"error": str(e)}
 
 @app.get("/validate_user/")
 def validate_user_api(email: str, password_hash: str):
-    return validate_user(email, password_hash)
+    try:
+        return validate_user(email, password_hash)
+    except Exception as e:
+        return {"error": str(e)}
 
 @app.get("/get_teams_for_specified_fan/")
 def get_teams_for_specified_fan_api(NFLFanID: int):
-    return get_teams_for_specified_fan(NFLFanID)
+    try:
+        return get_teams_for_specified_fan(NFLFanID)
+    except Exception as e:
+        return {"error": str(e)}
 
 @app.get("/get_teams_by_color/")
 def get_teams_by_color_api(color: str):
-    return get_teams_by_color(color)
+    try:
+        return get_teams_by_color(color)
+    except Exception as e:
+        return {"error": str(e)}
