@@ -15,7 +15,7 @@ def get_db_connection():
         raise Exception("Missing database environment variables")
 
     connection_string = (
-        "DRIVER={ODBC Driver 18 for SQL Server};"
+        "DRIVER={ODBC Driver 17 for SQL Server};"
         f"SERVER={server},1433;"
         f"DATABASE={database};"
         f"UID={username};"
@@ -25,6 +25,6 @@ def get_db_connection():
         "Connection Timeout=30;"
     )
 
-    conn = pyodbc.connect(connection_string)
+    conn = pymssql.connect(connection_string)
 
     return conn

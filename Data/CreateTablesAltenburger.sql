@@ -102,3 +102,4 @@ BEGIN
       AND t2.Tname <> @TeamName;
 END;
 GO
+
