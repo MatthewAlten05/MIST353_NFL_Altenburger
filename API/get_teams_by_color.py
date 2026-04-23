@@ -10,11 +10,10 @@ def get_teams_by_color(color: str):
 
     results = [
         {
-            "Team": row["Team"],
-            "Colors": row["Colors"]
+            "TeamName": row["Tname"],
+            "TeamColors": row["Tcolors"]
         }
         for row in rows
     ]
 
     return {"data": results}
-
