@@ -1,5 +1,5 @@
 import os
-import pymssql #(need to change to pymssql)
+import pymssql
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -14,17 +14,11 @@ def get_db_connection():
     if not all([server, database, username, password]):
         raise Exception("Missing database environment variables")
 
-    connection_string = (
-        "DRIVER={ODBC Driver 17 for SQL Server};"
-        f"SERVER={server},1433;"
-        f"DATABASE={database};"
-        f"UID={username};"
-        f"PWD={password};"
-        "Encrypt=yes;"
-        "TrustServerCertificate=yes;"  
-        "Connection Timeout=30;"
+    return pymssql.connect(
+        server=server,
+        user=username,
+        password=password,
+        database=database,
+        port=1433,
+        tds_version='7.4'
     )
-
-    conn = pymssql.connect(connection_string)
-
-    return conn
