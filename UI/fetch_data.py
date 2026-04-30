@@ -5,9 +5,6 @@ import pandas as pd
 FASTAPI_URL = "https://mist353-api-altenburger.azurewebsites.net"
 
 
-# ======================
-# GET REQUEST (existing)
-# ======================
 def fetch_data(endpoint: str, params: dict = None):
     url = f"{FASTAPI_URL}/{endpoint}"
 
@@ -39,14 +36,11 @@ def fetch_data(endpoint: str, params: dict = None):
         return None
 
 
-# ======================
-# POST REQUEST (NEW)
-# ======================
 def post_data(endpoint: str, data: dict):
     url = f"{FASTAPI_URL}/{endpoint}"
 
     try:
-        response = requests.post(url, json=data)
+        response = requests.post(url, params=data)
         response.raise_for_status()
         result = response.json()
 

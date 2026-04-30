@@ -23,13 +23,13 @@ def schedule_game_ui():
         result = post_data(
             "schedule_game/",
             {
-                "home_team_id": home_team_id,
-                "away_team_id": away_team_id,
-                "game_round": game_round,
-                "game_date": game_date.isoformat(),
-                "game_start_time": game_start_time.isoformat(),
-                "stadium_id": stadium_id,
-                "nfl_admin_id": nfl_admin_id
+                "HomeTeamID": home_team_id,
+                "AwayTeamID": away_team_id,
+                "GameRound": game_round,
+                "GameDate": game_date.isoformat(),
+                "GameStartTime": game_start_time.strftime("%H:%M:%S"),
+                "StadiumID": stadium_id,
+                "NFLAdminID": nfl_admin_id
             }
         )
 
