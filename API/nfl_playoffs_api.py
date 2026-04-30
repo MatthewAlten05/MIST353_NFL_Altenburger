@@ -54,23 +54,23 @@ def get_teams_by_color_api(color: str):
 
 @app.post("/schedule_game/")
 def schedule_game_api(
-    HomeTeamID: int,
-    AwayTeamID: int,
-    GameRound: str,
-    GameDate: date,
-    GameStartTime: time,
-    StadiumID: int,
-    NFLAdminID: int
+    home_team_id: int,
+    away_team_id: int,
+    game_round: str,
+    game_date: date,
+    game_start_time: time,
+    stadium_id: int,
+    nfl_admin_id: int
 ):
     try:
         return schedule_game(
-            HomeTeamID=HomeTeamID,
-            AwayTeamID=AwayTeamID,
-            GameRound=GameRound,
-            GameDate=GameDate,
-            GameStartTime=GameStartTime,
-            StadiumID=StadiumID,
-            NFLAdminID=NFLAdminID
+            home_team_id=home_team_id,
+            away_team_id=away_team_id,
+            game_round=game_round,
+            game_date=game_date,
+            game_start_time=game_start_time,
+            stadium_id=stadium_id,
+            nfl_admin_id=nfl_admin_id
         )
     except Exception as e:
         return {"error": str(e)}
