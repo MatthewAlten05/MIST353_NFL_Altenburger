@@ -1,11 +1,17 @@
 import streamlit as st
 from pathlib import Path
+
+from schedule_game_ui import schedule_game_ui
 from get_teams_by_conference_division_ui import get_teams_by_conference_division_ui
 from get_teams_in_same_conference_division_as_specified_team_ui import get_teams_in_same_conference_division_as_specified_team_ui
 from validate_user_ui import validate_user_ui
 from get_teams_for_specified_fan_ui import get_teams_for_specified_fan_ui
 from get_teams_by_colors_ui import get_teams_by_colors_ui
 
+
+# ======================
+# IMAGE
+# ======================
 image_path = Path(__file__).parent / "vintage_nfl.png"
 
 col1, col2, col3 = st.columns([1, 2, 1])
@@ -15,11 +21,23 @@ with col2:
     else:
         st.warning("Image file 'vintage_nfl.png' was not found.")
 
-st.title("NFL Playoffs App")
-st.write("Welcome to the NFL Playoffs App! Use the sidebar to navigate through different features and explore information about NFL teams, players, and playoff matchups.")
 
+# ======================
+# TITLE
+# ======================
+st.title("NFL Playoffs App")
+st.write(
+    "Welcome to the NFL Playoffs App! Use the sidebar to navigate through different "
+    "features and explore information about NFL teams, players, and playoff matchups."
+)
+
+
+# ======================
+# SIDEBAR MENU
+# ======================
 with st.sidebar:
     st.title("NFL Playoff Functionalities")
+
     api_endpoint = st.selectbox(
         "Select a functionality:",
         [
@@ -27,10 +45,15 @@ with st.sidebar:
             "Get Teams in Same Conference and Division as Specified Team",
             "Validate User",
             "Get Teams for Specified Fan",
-            "Get Teams by Color"
+            "Get Teams by Color",
+            "Schedule Game"
         ]
     )
 
+
+# ======================
+# ROUTING
+# ======================
 if api_endpoint == "Get Teams by Conference and Division":
     get_teams_by_conference_division_ui()
 
@@ -45,3 +68,6 @@ elif api_endpoint == "Get Teams for Specified Fan":
 
 elif api_endpoint == "Get Teams by Color":
     get_teams_by_colors_ui()
+
+elif api_endpoint == "Schedule Game":
+    schedule_game_ui()
