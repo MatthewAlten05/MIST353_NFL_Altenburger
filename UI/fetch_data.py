@@ -41,6 +41,9 @@ def post_data(endpoint: str, data: dict):
 
     try:
         response = requests.post(url, params=data)
+
+        st.write("FINAL URL:", response.url)
+
         response.raise_for_status()
         result = response.json()
 
