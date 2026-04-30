@@ -43,15 +43,16 @@ def post_data(endpoint: str, data: dict):
         response = requests.post(url, params=data)
 
         st.write("FINAL URL:", response.url)
+        st.write("STATUS CODE:", response.status_code)
+
+        try:
+            result = response.json()
+            st.write("Raw API response:", result)
+        except Exception:
+            st.write("Raw response text:", response.text)
+            result = None
 
         response.raise_for_status()
-        result = response.json()
-
-        st.write("Raw API response:", result)
-
-        if isinstance(result, dict) and "error" in result:
-            st.error(f"API Error: {result['error']}")
-            return None
 
         return result
 
