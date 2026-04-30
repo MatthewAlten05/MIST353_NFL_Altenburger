@@ -1,3 +1,12 @@
+if(OBJECT_ID('AdminChangesTracker') is not null)
+    drop table AdminChangesTracker;
+if(OBJECT_ID('TeamStadium') is not null)
+    drop table TeamStadium;
+if(OBJECT_ID('Game') is not null)
+    drop table Game;
+if(OBJECT_ID('Stadium') is not null)
+    drop table Stadium;
+
 if (OBJECT_ID('FanTeam') is not null)
     drop table FanTeam;
 if (OBJECT_ID('NFLFan') is not null)
@@ -79,6 +88,68 @@ create table FanTeam(
         constraint FK_FanTeam_Team foreign key REFERENCES Team(TeamID),
     constraint UK_FanTeam UNIQUE (NFLFanID, TeamID),
     PrimaryTeam BIT NOT NULL
+);
+
+GO
+
+create table Stadium(
+    StadiumID int IDENTITY(1,1)
+        constraint PK_Stadium primary key,
+    StadiumName NVARCHAR(100) NOT NULL,
+    StadiumCityState NVARCHAR(50) NOT NULL,
+    Capacity INT NOT NULL
+);
+
+GO
+
+create table TeamStadium(
+    TeamStadiumID int IDENTITY(1,1)
+        constraint PK_TeamStadium primary key,
+    TeamID int not null
+        constraint FK_TeamStadium_Team foreign key REFERENCES Team(TeamID),
+    StadiumID int not null
+        constraint FK_TeamStadium_Stadium foreign key REFERENCES Stadium(StadiumID),
+    StartYear INT NOT NULL,
+    EndYear INT NULL
+    CONSTRAINT UK_TeamStadium UNIQUE (TeamID, StadiumID, StartYear)
+);
+
+GO
+
+create table Game (
+    GameID INT identity(1,1) 
+        constraint PK_Game PRIMARY KEY,
+    GameRound NVARCHAR(50) NOT NULL
+        constraint CK_GameRound CHECK (GameRound IN ('Wild Card', 'Divisional', 'Conference', 'Super Bowl')),
+    GameDate DATE NOT NULL,
+    GameStartTime TIME NOT NULL,
+    HomeTeamID INT NOT NULL 
+        constraint FK_Game_HomeTeam FOREIGN KEY REFERENCES Team(TeamID),
+    AwayTeamID INT NOT NULL
+        constraint FK_Game_AwayTeam FOREIGN KEY REFERENCES Team(TeamID),
+    StadiumID INT NOT NULL
+        constraint FK_Game_Stadium FOREIGN KEY REFERENCES Stadium(StadiumID),
+    HomeTeamScore INT NULL,
+    AwayTeamScore INT NULL,
+    WinningTeamID INT NULL
+        constraint FK_Game_WinningTeam FOREIGN KEY REFERENCES Team(TeamID),
+    constraint CK_Game_Teams CHECK (HomeTeamID != AwayTeamID),
+    constraint UK_Game UNIQUE (HomeTeamID, AwayTeamID, GameDate)
+);
+
+go
+
+create table AdminChangesTracker (
+    AdminChangesTrackerID INT identity(1,1) 
+        constraint PK_AdminChangesTracker PRIMARY KEY,
+    NFLAdminID INT NOT NULL
+        constraint FK_AdminChangesTracker_NFLAdmin FOREIGN KEY REFERENCES NFLAdmin(NFLAdminID),
+    GameID INT NOT NULL
+        constraint FK_AdminChangesTracker_Game FOREIGN KEY REFERENCES Game(GameID),
+    ChangeDateTime DATETIME NOT NULL DEFAULT GETDATE(),
+    ChangeType NVARCHAR(50) NOT NULL
+        constraint CK_AdminChangesTracker_ChangeType CHECK (ChangeType IN (N'Insert', N'Update', N'Delete')),
+    ChangeDescription NVARCHAR(500) NOT NULL
 );
 
 GO
