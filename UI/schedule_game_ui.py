@@ -30,11 +30,15 @@ def schedule_game_ui():
                 "game_start_time": game_start_time.isoformat(),
                 "stadium_id": stadium_id,
                 "nfl_admin_id": nfl_admin_id
-            },
-            method="POST"
+            }
         )
 
         if result:
-            st.success(result.get("status_message", "Game scheduled successfully."))
+            if "status_message" in result:
+                st.success(result["status_message"])
+            elif "error" in result:
+                st.error(result["error"])
+            else:
+                st.write(result)
         else:
             st.error("No response from API.")
