@@ -20,16 +20,21 @@ def schedule_game_ui():
     nfl_admin_id = st.number_input("Enter NFL Admin ID:", min_value=1, step=1)
 
     if st.button("Schedule Game"):
+
+        if home_team_id == away_team_id:
+            st.error("Home Team and Away Team cannot be the same.")
+            return
+
         result = post_data(
             "schedule_game/",
             {
-                "HomeTeamID": home_team_id,
-                "AwayTeamID": away_team_id,
-                "GameRound": game_round,
-                "GameDate": game_date.isoformat(),
-                "GameStartTime": game_start_time.strftime("%H:%M:%S"),
-                "StadiumID": stadium_id,
-                "NFLAdminID": nfl_admin_id
+                "home_team_id": home_team_id,
+                "away_team_id": away_team_id,
+                "game_round": game_round,
+                "game_date": game_date.isoformat(),
+                "game_start_time": game_start_time.strftime("%H:%M:%S"),
+                "stadium_id": stadium_id,
+                "nfl_admin_id": nfl_admin_id
             }
         )
 
