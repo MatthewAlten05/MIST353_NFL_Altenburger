@@ -1,7 +1,10 @@
 from datetime import date, time
 
 from fastapi import FastAPI
+
 from schedule_game import schedule_game
+from get_all_teams import get_all_teams
+from get_all_stadiums import get_all_stadiums
 from get_teams_by_conference_division import get_teams_by_conference_division
 from get_teams_in_same_conference_division_as_specified_team import get_teams_in_same_conference_division_as_specified_team
 from validate_user import validate_user
@@ -48,6 +51,22 @@ def get_teams_for_specified_fan_api(NFLFanID: int):
 def get_teams_by_color_api(color: str):
     try:
         return get_teams_by_color(color)
+    except Exception as e:
+        return {"error": str(e)}
+
+
+@app.get("/get_all_teams/")
+def get_all_teams_api():
+    try:
+        return get_all_teams()
+    except Exception as e:
+        return {"error": str(e)}
+
+
+@app.get("/get_all_stadiums/")
+def get_all_stadiums_api():
+    try:
+        return get_all_stadiums()
     except Exception as e:
         return {"error": str(e)}
 
