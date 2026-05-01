@@ -70,4 +70,7 @@ elif api_endpoint == "Get Teams by Color":
     get_teams_by_colors_ui()
 
 elif api_endpoint == "Schedule Game":
+    if "app_user_validated" in st.session_state:
+        st.warning("Scheduling game needs a sign in")
+        
     schedule_game_ui()
