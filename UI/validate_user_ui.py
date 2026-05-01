@@ -1,8 +1,10 @@
 import streamlit as st
 from fetch_data import fetch_data
 
+
 def validate_user_ui():
     st.header("Validate User")
+
     email = st.text_input("Enter Email:")
     password_hash = st.text_input("Enter Password:", type="password")
 
@@ -24,13 +26,17 @@ def validate_user_ui():
         df = fetch_data("validate_user/", input_params)
 
         if df is not None and not df.empty:
+            st.success("Login successful!")
             st.subheader(f"User {email} is valid:")
             st.dataframe(df, use_container_width=True, hide_index=True)
 
-            if "AppUserID" in df.columns:
-                st.session_state.app_user_id = df["AppUserID"].values[0]
+            st.session_state["user_id"] = int(df.iloc[0]["AppUserID"])
+            st.session_state["app_user_id"] = int(df.iloc[0]["AppUserID"])
+            st.session_state["full_name"] = df.iloc[0]["FullName"]
+            st.session_state["user_role"] = df.iloc[0]["UserRole"]
 
-            if "FullName" in df.columns:
-                st.session_state.full_name = df["FullName"].values[0]
+            st.write("Logged in as:", st.session_state["full_name"])
+            st.write("Role:", st.session_state["user_role"])
+
         else:
             st.info(f"User {email} not found. Please check inputs and try again.")
